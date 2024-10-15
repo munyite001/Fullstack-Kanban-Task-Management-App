@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+  --primary-dark: #2b2c37;
+  --primary-light: #f8f9fa;
+  --secondary-dark: #20212c;
+  --light-purple: #635fc7;
+  --bluish-grey: #8698af;
+  --dark-bluish-grey: #7a879b;
+  --light-grey: #828fa3;
+  --pale-blue: #f4f7fd;
+  --gray-blue: #93a9c8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.sidebar {
+  font-family: "Roboto", sans-serif;
+  width: 250px;
+  height: 100%;  
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  transition: all 0.3s ease-in;
+  transform: translateX(-100%);
+}
+
+.show-sidebar {
+  transform: translateX(0);
+}
+
+.sidebar.light {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.sidebar.dark {
+  background-color: var(--primary-dark);
+  color: var(--primary-light);
+}
+
+.sidebar-header {
+  width: 100%;
+  margin: 0 1rem 2rem;
+  display: flex;
+  align-items: end;
+  font-family: "Montserrat", sans-serif;
+}
+
+.sidebar-header .logo-container {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 0.5rem 0 0;
+}
+
+.sidebar-header .logo-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar h2 {
+  font-size: 16px;
+  margin: 1rem 1rem 2rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+}
+
+.sidebar h2.dark {
+  color: var(--dark-bluish-grey);
+}
+
+.sidebar h2.light {
+  color: var(--bluish-grey);
+}
+
+
+.boards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.boards li {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+  padding: 1rem;
+  border-radius: 0 30px 30px 0;
+  transition: all 0.2s linear;
+  cursor: pointer;
+}
+
+.boards li:hover {
+  background-color: var(--primary-light);
+  color: var(--light-purple);
+}
+
+.boards li.active {
+  background-color: var(--light-purple);
+  color: var(--primary-light);
+}
+
+.boards li img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 0.5rem 0 0;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.boards li:hover img {
+  background-color: #635fc7;
+}
+
+.add-board {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.add-board.dark {
+  color: var(--bluish-grey);
+}
+
+.add-board.dark:hover {
+  color: var(--light-purple);
+}
+
+.add-board.light {
+  color: var(--light-purple);
+}
+
+.add-board img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+
+.toggle-theme {
+  border-radius: 10px;
+  background-color: #DCD4FF;
+  margin: 1rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-theme.dark {
+  background-color: var(--secondary-dark);
+}
+
+.toggle-theme img {
+  width: 1rem;
+  height: 1rem;
+  margin: 0 0.5rem;
+}
+
+/* Styling the range input itself */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2rem;
+  height: 13px;
+  background: var(--track-color, #DCD4FF); /* Customize track color */
+  border-radius: 10px;
+  outline: none;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+input[type="range"].light {
+  background-color: var(--primary-dark);
+}
+
+/* Thumb styling for WebKit browsers (Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--thumb-color, #6964ff); /* Customize thumb color */
+  cursor: pointer;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+/* Track before the thumb (progress) for WebKit */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 13px;
+  padding: 2px;
+}
+
+/* Thumb styling for Mozilla browsers (Firefox) */
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--thumb-color, #6964ff); /* Customize thumb color */
+  cursor: pointer;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+/* Styling for the range track in Mozilla browsers */
+input[type="range"]::-moz-range-track {
+  height: 12px;
+  border-radius: 5px;
+}
+
+/* Thumb styling for Internet Explorer/Edge */
+input[type="range"]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--thumb-color, #6964ff); /* Customize thumb color */
+  cursor: pointer;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+input[type="range"]:hover::-ms-thumb {
+  transform: scale(1.2);
+}
+
+/* Track styling for Internet Explorer/Edge */
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 12px;
+  background: transparent; /* Hide the default track */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Focus styles */
+input[type="range"]:focus {
+  outline: none;
+}
+
+.hide-sidebar {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.hide-sidebar.dark {
+  background-color: var(--secondary-dark);
+  color: var(--primary-light);
+}
+
+.hide-sidebar.light {
+  background-color: var(--pale-blue);
+  color: var(--primary-dark);
+}
+
+.hide-sidebar .img-container {
+  width: 3rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s linear;
+}
+
+.sidebar:not(.show-sidebar) .hide-sidebar > .img-container {
+  position: fixed;
+  right: -3rem;
+  background-color: var(--primary-dark);
+  border-radius: 0 5px 5px 0;
+}
+
+.hide-sidebar span {
+  padding: 1rem 0;
+}
+
+.hide-sidebar img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.display {
+  width: 100%;
+  height: 100vh;
+  margin-left: auto;
+  transition: all 0.3s ease-in;
+  font-family: "Roboto", sans-serif;
+}
+
+.display.sidebar-open {
+  width: calc(100% - 250px);
+}
+
+.display .display-info {
+  padding: 2rem 1rem 1rem;
+  display: flex;
+  align-items: end;
+}
+
+.display .board-contents {
+  width: 100%;
+  padding: 1rem;
+}
+
+.board-contents .tasks {
+  display: flex;
+}
+
+.board-contents .tasks > li {
+  width: 250px;
+  margin: 1rem;
+}
+
+.board-contents .tasks > li h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #93a9c8;
+  margin: 0 0 1rem;
+}
+
+.board-contents .tasks .task {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  cursor: pointer;
+}
+
+.board-contents .tasks .task h4 {
+  font-size: 18px;
+  margin: 0 0 0.3rem;
+}
+
+.board-contents .tasks .task h4:hover {
+  color: var(--light-purple);
+}
+
+.board-contents .tasks .task .sub-tasks {
+  font-size: 13px;
+  color: #93a9c8;
+  font-weight: 500;
+}
+
+.modal-overlay {
+  z-index: 1000;
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 400px;
+  padding: 
+  1rem;
+  border: 1px solid red;
+  border-radius: 15px;
+}
+
+.modal-content h2 {
+  margin: 1rem 0;
+}
+
+
+.modal-content form {
+  width: 100%;
+  border: 1px solid red;
+}
+
+.modal-content form .input-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box label {
+  font-weight: 600;
+  margin: 0.3rem 0;
+}
+
+.input-box input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid var(--primary-dark);
+}
+
+.modal-content form h3 {
+  margin: 1rem 0 0.3rem;
+}

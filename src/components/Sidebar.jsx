@@ -23,7 +23,7 @@ export default function Sidebar(
   };
 
   const handleCreateBoard = () => [
-
+      setShowCreateBoardModal(true)
   ]
 
   return (

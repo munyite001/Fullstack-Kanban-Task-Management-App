@@ -10,6 +10,7 @@
   --light-grey: #828fa3;
   --pale-blue: #f4f7fd;
   --gray-blue: #93a9c8;
+  --border-color: #3e414e;
 }
 
 * {
@@ -92,6 +93,8 @@ body, #root {
 
 .boards {
   width: 100%;
+  height: 170px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -374,7 +377,7 @@ input[type="range"]:focus {
   z-index: 1000;
   position: absolute;
   inset: 0;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -383,10 +386,10 @@ input[type="range"]:focus {
 
 .modal-content {
   width: 400px;
-  padding: 
-  1rem;
-  border: 1px solid red;
+  padding: 1rem;
   border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-family: "Montserrat", sans-serif;
 }
 
 .modal-content h2 {
@@ -396,7 +399,6 @@ input[type="range"]:focus {
 
 .modal-content form {
   width: 100%;
-  border: 1px solid red;
 }
 
 .modal-content form .input-box {
@@ -414,9 +416,86 @@ input[type="range"]:focus {
   padding: 0.5rem;
   border-radius: 5px;
   outline: none;
-  border: 1px solid var(--primary-dark);
+  border: 2px solid var(--border-color);
+  background-color: transparent;
+}
+
+.input-box.dark input {
+  color: #fff !important;
+}
+
+.input-box.dark input::placeholder {
+  color: #fff !important;
+}
+
+.input-box input:focus {
+  border-color: var(--light-purple);
 }
 
 .modal-content form h3 {
   margin: 1rem 0 0.3rem;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.columns {
+  margin: 0.3rem 0 1rem;
+}
+
+.input-box.columns {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-box.columns > input {
+  width: 90%;
+}
+
+.input-box.columns span {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+form .btn {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-purple);
+  border: 1px solid var(--light-purple);
+  color: var(--primary-light);
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+form .btn:hover {
+  background-color: var(--primary-light);
+  color: var(--light-purple);
+}
+
+
+
+
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--light-purple);
+  border-radius: 5px;
 }

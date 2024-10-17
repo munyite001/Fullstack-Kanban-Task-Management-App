@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Display({ board, showSideBar, theme }) {
+export default function Display({ board, showSideBar, theme, setShowTaskModal }) {
 
     const darkColorDisplay = {
         background: "#20212c",
@@ -36,10 +36,9 @@ export default function Display({ board, showSideBar, theme }) {
         <div 
             className={showSideBar ? "display sidebar-open" : "display"} 
             style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
-            <div 
-                className="display-info"
-                style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
+            <div className="display-info"style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
                 <h2>{board.name}</h2>
+                <button type="button" className="btn" onClick={() => setShowTaskModal(true)}>Add New Task</button>
             </div>
             <div className="board-contents">
                 <ul className="tasks">

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Display from './components/Display'
 import CreateBoardModal from './components/CreateBoardModal'
+import TaskModal from './components/TaskModal'
 
 function App() {
 
@@ -12,6 +13,8 @@ function App() {
   const [showSideBar, setShowSideBar] = useState(true);
 
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+
+  const [showTaskModal, setShowTaskModal] = useState(false);
 
   const [boards, setBoards] = useState(() => {
     const storedBoards = localStorage.getItem("boards");
@@ -192,12 +195,18 @@ function App() {
   });
 
   
-  const [activeBoard, setActiveBoard] = useState(boards[0] || {})
+  const [activeBoard, setActiveBoard] = useState(boards.length > 0 ? boards[0] : null);
 
   useEffect(() => {
     // Whenever boards change, save them to local storage
     localStorage.setItem("boards", JSON.stringify(boards));
-  }, [boards]);
+
+    const updatedBoard = boards.find(board => board.id === activeBoard.id);
+    if (updatedBoard) {
+      setActiveBoard(updatedBoard);
+    }
+
+  }, [boards, activeBoard]);
 
   useEffect(() => {
     //  Check user preferred color scheme
@@ -228,7 +237,15 @@ function App() {
           setBoards={setBoards} 
           boards={boards} 
           theme={theme}/>}
-
+      {showTaskModal &&
+        <TaskModal 
+          setShowTaskModal={setShowTaskModal}
+          theme={theme}
+          boards={boards}
+          setBoards={setBoards}
+          activeBoard={activeBoard}
+          />
+      }
       <Sidebar 
         theme={theme} 
         boards={boards} 
@@ -243,6 +260,7 @@ function App() {
         board={activeBoard} 
         showSideBar={showSideBar}
         theme={theme}
+        setShowTaskModal={setShowTaskModal}
         />
     </div>
   )

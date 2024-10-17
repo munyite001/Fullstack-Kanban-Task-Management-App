@@ -236,7 +236,9 @@ function App() {
           setShowCreateBoardModal={setShowCreateBoardModal} 
           setBoards={setBoards} 
           boards={boards} 
-          theme={theme}/>}
+          theme={theme}
+          setActiveBoard={setActiveBoard}
+          />}
       {showTaskModal &&
         <TaskModal 
           setShowTaskModal={setShowTaskModal}
@@ -257,10 +259,13 @@ function App() {
         setShowCreateBoardModal={setShowCreateBoardModal}
         />
       <Display 
-        board={activeBoard} 
+        activeBoard={activeBoard} 
         showSideBar={showSideBar}
         theme={theme}
         setShowTaskModal={setShowTaskModal}
+        boards={boards}
+        setBoards={setBoards}
+        setActiveBoard={setActiveBoard}
         />
     </div>
   )

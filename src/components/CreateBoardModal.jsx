@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid"
 
-export default function CreateBoardModal({ setShowCreateBoardModal, setBoards, boards, theme }) {
+export default function CreateBoardModal({ setShowCreateBoardModal, setBoards, boards, theme, setActiveBoard }) {
     const [boardDetails, setBoardDetails] = useState({
         name: "",
         columns: [
@@ -93,7 +93,9 @@ export default function CreateBoardModal({ setShowCreateBoardModal, setBoards, b
 
         setBoards([...boards, newBoard]);
 
+        setActiveBoard(newBoard);        
         setShowCreateBoardModal(false)
+
     }
 
     return (

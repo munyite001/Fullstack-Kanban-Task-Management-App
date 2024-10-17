@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 /* eslint-disable react/prop-types */
-export default function Display({ board, showSideBar, theme, setShowTaskModal }) {
+export default function Display({ activeBoard, showSideBar, theme, setShowTaskModal, boards, setBoards, setActiveBoard }) {
 
     const [showBoardControls, setShowBoardControls] = useState(false)
 
@@ -46,18 +46,28 @@ export default function Display({ board, showSideBar, theme, setShowTaskModal })
         }
     }
 
+    const handleDeleteBoard = () => {
+        const deleteBoard = window.confirm(`Are you sure you want to delete this board ${activeBoard.name}?`);
+
+        if (deleteBoard) {
+            const newBoards = boards.filter((board) => board.id !== activeBoard.id);
+            setBoards(newBoards);
+            setActiveBoard(newBoards[newBoards.length - 1]);
+        }
+    }
+
     return (
         <div className={showSideBar ? "display sidebar-open" : "display"} style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
             {showBoardControls &&
                 <div className="controls-modal" onClick={(e) => handleCloseControls(e)}>
                     <div className="controls-modal-content">
                         <button type="button" className="btn-2">Edit Board</button>
-                        <button type="button" className="btn-2">Delete Board</button>
+                        <button type="button" className="btn-2" onClick={handleDeleteBoard}>Delete Board</button>
                     </div>
                 </div>
             }
             <div className="display-info"style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
-                <h2>{board.name}</h2>
+                <h2>{activeBoard.name}</h2>
                 <div className="display-info-controls">
                     <button type="button" className="btn" onClick={() => setShowTaskModal(true)}>Add New Task</button>
                     <i className="fa-solid fa-ellipsis-vertical" onClick={handleToggleBoardControls}></i>
@@ -65,7 +75,7 @@ export default function Display({ board, showSideBar, theme, setShowTaskModal })
             </div>
             <div className="board-contents">
                 <ul className="tasks">
-                    {board.columns.map((column) => {
+                    {activeBoard.columns.map((column) => {
                         return (
                             <li key={column.id} className="column">
                                 <h3>{column.name} ( {column.tasks.length} )</h3>

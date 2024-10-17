@@ -324,7 +324,7 @@ input[type="range"]:focus {
 }
 
 .display .display-info {
-  padding: 2rem 1rem 1rem;
+  padding: 2rem 0 1rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -544,7 +544,52 @@ input[type="range"]:focus {
 }
 
 
+.display-info-controls {
+  display: flex;
+  align-items: center;
+}
 
+.display-info-controls i {
+  margin: 0 1rem;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.controls-modal {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 5rem;
+  left: 0;
+}
+
+.controls-modal-content {
+  border-radius: 10px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 1rem;
+}
+
+.controls-modal-content button {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.controls-modal-content button:nth-child(1) {
+  border-radius: 10px 10px 0 0;
+  color: var(--light-purple);
+}
+
+
+.controls-modal-content button:nth-child(2) {
+  border-radius: 0 0 10px 10px;
+  color: #ff4d4d;
+}
 
 
 

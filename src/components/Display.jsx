@@ -1,5 +1,9 @@
+import { useState } from "react"
+
 /* eslint-disable react/prop-types */
 export default function Display({ board, showSideBar, theme, setShowTaskModal }) {
+
+    const [showBoardControls, setShowBoardControls] = useState(false)
 
     const darkColorDisplay = {
         background: "#20212c",
@@ -32,13 +36,32 @@ export default function Display({ board, showSideBar, theme, setShowTaskModal })
         color: "#2b2c37",
     }
 
+    const handleToggleBoardControls = () => {
+        setShowBoardControls(!showBoardControls)
+    }
+
+    const handleCloseControls = (e) => {
+        if (e.target == e.currentTarget) {
+            setShowBoardControls(false)
+        }
+    }
+
     return (
-        <div 
-            className={showSideBar ? "display sidebar-open" : "display"} 
-            style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
+        <div className={showSideBar ? "display sidebar-open" : "display"} style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
+            {showBoardControls &&
+                <div className="controls-modal" onClick={(e) => handleCloseControls(e)}>
+                    <div className="controls-modal-content">
+                        <button type="button" className="btn-2">Edit Board</button>
+                        <button type="button" className="btn-2">Delete Board</button>
+                    </div>
+                </div>
+            }
             <div className="display-info"style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
                 <h2>{board.name}</h2>
-                <button type="button" className="btn" onClick={() => setShowTaskModal(true)}>Add New Task</button>
+                <div className="display-info-controls">
+                    <button type="button" className="btn" onClick={() => setShowTaskModal(true)}>Add New Task</button>
+                    <i className="fa-solid fa-ellipsis-vertical" onClick={handleToggleBoardControls}></i>
+                </div>
             </div>
             <div className="board-contents">
                 <ul className="tasks">

@@ -4,8 +4,9 @@
 import { useState, useEffect, act } from "react";
 import { v4 as uuid } from "uuid"
 import AlertMessage from "./Alert";
+import TaskDetails from "./TaskDetails";
 
-export default function UpdateTask({ selectedTask }) {
+export default function UpdateTask({ selectedTask, activeBoard, setShowUpdateTaskModal, setBoards, boards, theme }) {
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -19,8 +20,7 @@ export default function UpdateTask({ selectedTask }) {
         name:selectedTask.name,
         description: selectedTask.description,
         subtasks: selectedTask.subtasks,
-        currentStatus: activeBoard.columns[0].name,
-    })
+        currentStatus: activeBoard.columns.find((column) =>  column.tasks.some((task) => task.id === selectedTask.id)).name || activeBoard.columns[0].name })
 
     const darkModal = {
         background: "#2b2c37",
@@ -34,7 +34,7 @@ export default function UpdateTask({ selectedTask }) {
 
     const handleCloseTaskModal = (e) => {
         if (e.target === e.currentTarget) {
-            setShowTaskModal(false)
+            setShowUpdateTaskModal(false)
         }
     }
 
@@ -47,7 +47,7 @@ export default function UpdateTask({ selectedTask }) {
         setTaskDetails({...taskDetails, subtasks: newSubtasks})
     }
 
-    const handleCreateTask = () => {
+    const handleEditTask = () => {
         if (!taskDetails.name || !taskDetails.description) {
             setAlertMessage({message: "Please fill in all fields", type: "error"})
             setShowAlert(true)
@@ -66,31 +66,37 @@ export default function UpdateTask({ selectedTask }) {
             }, 5000)
           return;
         }
-      
+        
         const updatedBoards = boards.map((board) => {
-          if (board.id === activeBoard.id) {
-            // Update the columns array immutably
-            const updatedColumns = board.columns.map((column) => {
-              if (column.name === taskDetails.currentStatus) {
-                return {
-                  ...column, 
-                  tasks: [...column.tasks, taskDetails]  // Add new task immutably
-                };
-              }
-              return column;
-            });
-            
-            // Return the updated board with new columns array
-            return { ...board, columns: updatedColumns };
-          }
-          return board;  // Return the board unchanged if it's not the active one
-        });
-      
-        // Set the updated boards state
-        setBoards([...updatedBoards]);  // Ensure a new reference to the array is created
-        setShowTaskModal(false);  // Close the modal
-        console.log(boards)
-      };
+            if (board.id === activeBoard.id) {
+              const updatedColumns = board.columns.map((column) => {
+
+                // Remove the task from the old column
+                if (column.tasks.some((task) => task.id === selectedTask.id)) {
+                    return {
+                        ...column,
+                        tasks: column.tasks.filter((task) => task.id !== selectedTask.id) // Remove task from the old column
+                    };
+                }
+
+                // Add the task to the new column
+                if (column.name === taskDetails.currentStatus) {
+                  return {
+                    ...column,
+                    tasks: [...column.tasks, taskDetails] // Add updated task to the correct column
+                  };
+                }
+                return column;
+              });
+        
+              return { ...board, columns: updatedColumns };
+            }
+            return board;
+          });
+        
+          setBoards([...updatedBoards]);
+          setShowUpdateTaskModal(false);
+        };
       
       
 
@@ -123,14 +129,20 @@ export default function UpdateTask({ selectedTask }) {
                     <button className="btn add-column" type="button" onClick={handleAddNewSubtask}>Add new Subtask</button>
 
                     <h3>Current Status</h3>
-                    <select name="column" id="column" className={theme=="dark" ? "task-column dark" : "task-column light"} onChange={(e) => setTaskDetails({...taskDetails, currentStatus: e.target.value})}>
-                        {activeBoard.columns.map((column) => {
-                            return (
-                                <option key={column.id} value={column.name}>{column.name}</option>
-                            )
-                        })}
-                    </select>
-                    <button className="btn create-board" type="button" onClick={handleCreateTask}>Create Task</button>
+                    <select
+                        name="column"
+                        id="column"
+                        className={theme == "dark" ? "task-column dark" : "task-column light"}
+                        value={taskDetails.currentStatus}  // Bind the value to the current status ID
+                        onChange={(e) => setTaskDetails({...taskDetails, currentStatus: e.target.value})}
+                        >
+                        {activeBoard.columns.map((column) => (
+                            <option key={column.id} value={column.name}>
+                                {column.name}
+                            </option>
+                        ))}
+                        </select>
+                    <button className="btn create-board" type="button" onClick={handleEditTask}>Save Changes</button>
                 </form>
             </div>
         </div>

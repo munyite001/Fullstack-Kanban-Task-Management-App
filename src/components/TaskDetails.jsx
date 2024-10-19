@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-export default function TaskDetails({ setShowTaskDetailsModal, theme, selectedTask, boards, setBoards }) {
+export default function TaskDetails({ setShowTaskDetailsModal, theme, selectedTask, boards, setBoards, setShowUpdateTaskModal }) {
 
 
     const [modifiedTask, setModifiedTask] = useState(selectedTask);
@@ -85,13 +85,19 @@ export default function TaskDetails({ setShowTaskDetailsModal, theme, selectedTa
         }
     }
 
+    const handleEditTask = () => {
+        // Set the task details in the update task modal
+        setShowTaskDetailsModal(false);
+        setShowUpdateTaskModal(true);
+    }
+
     return (
         <div className="modal-overlay" onClick={handleCloseModal}>
             {selectedTask &&
                 <div className="modal-content task-details" style={theme == "dark" ? darkModal : lightModal}>
                     {showTaskControls && 
                         <div className="task-controls">
-                            <button type="button" className="btn-2">Edit Task</button>
+                            <button type="button" className="btn-2" onClick={handleEditTask}>Edit Task</button>
                             <button type="button" className="btn-2" onClick={() => handleDeleteTask(selectedTask)}>Delete Task</button>
                         </div>
                     }

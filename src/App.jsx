@@ -243,7 +243,14 @@ function App() {
   return (
     <div className='app'>
       {showUpdateTaskModal &&
-        <UpdateTask selectedTask={selectedTask}/>
+        <UpdateTask 
+          selectedTask={selectedTask}
+          activeBoard={activeBoard}
+          setShowUpdateTaskModal={setShowUpdateTaskModal}
+          setBoards={setBoards}
+          boards={boards}
+          theme={theme}
+        />
       }
       {showTaskDetailsModal && 
         <TaskDetails 
@@ -252,6 +259,7 @@ function App() {
           setShowTaskDetailsModal={setShowTaskDetailsModal}
           boards={boards}
           setBoards={setBoards}
+          setShowUpdateTaskModal={setShowUpdateTaskModal}
         />
       }
       {showCreateBoardModal && 

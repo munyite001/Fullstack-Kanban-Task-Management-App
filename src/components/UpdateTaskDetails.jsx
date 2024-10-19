@@ -5,7 +5,7 @@ import { useState, useEffect, act } from "react";
 import { v4 as uuid } from "uuid"
 import AlertMessage from "./Alert";
 
-export default function TaskModal({ setShowTaskModal, setBoards, boards, theme, activeBoard }) {
+export default function UpdateTask({ selectedTask }) {
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -15,10 +15,10 @@ export default function TaskModal({ setShowTaskModal, setBoards, boards, theme, 
     });
 
     const [taskDetails, setTaskDetails] = useState({
-        id: uuid(),
-        name:"",
-        description:"",
-        subtasks: [{}, {}],
+        id: selectedTask.id,
+        name:selectedTask.name,
+        description: selectedTask.description,
+        subtasks: selectedTask.subtasks,
         currentStatus: activeBoard.columns[0].name,
     })
 

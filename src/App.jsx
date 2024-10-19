@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Display from './components/Display'
 import CreateBoardModal from './components/CreateBoardModal'
+import UpdateBoard from './components/UpdateBoard'
 import TaskModal from './components/TaskModal'
+import TaskDetails from './components/TaskDetails'
+import UpdateTask from './components/UpdateTaskDetails'
 
 function App() {
 
@@ -14,7 +17,15 @@ function App() {
 
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
 
+  const [showUpdateBoardModal, setShowUpdateBoardModal] = useState(false);
+
   const [showTaskModal, setShowTaskModal] = useState(false);
+
+  const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
+
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
 
   const [boards, setBoards] = useState(() => {
     const storedBoards = localStorage.getItem("boards");
@@ -231,12 +242,33 @@ function App() {
 
   return (
     <div className='app'>
+      {showUpdateTaskModal &&
+        <UpdateTask selectedTask={selectedTask}/>
+      }
+      {showTaskDetailsModal && 
+        <TaskDetails 
+          theme={theme}
+          selectedTask={selectedTask}
+          setShowTaskDetailsModal={setShowTaskDetailsModal}
+          boards={boards}
+          setBoards={setBoards}
+        />
+      }
       {showCreateBoardModal && 
         <CreateBoardModal 
           setShowCreateBoardModal={setShowCreateBoardModal} 
           setBoards={setBoards} 
           boards={boards} 
           theme={theme}
+          setActiveBoard={setActiveBoard}
+          />}
+      {showUpdateBoardModal && 
+        <UpdateBoard 
+          setShowUpdateBoardModal={setShowUpdateBoardModal}
+          setBoards={setBoards} 
+          boards={boards} 
+          theme={theme}
+          activeBoard={activeBoard}
           setActiveBoard={setActiveBoard}
           />}
       {showTaskModal &&
@@ -266,6 +298,9 @@ function App() {
         boards={boards}
         setBoards={setBoards}
         setActiveBoard={setActiveBoard}
+        setShowUpdateBoardModal={setShowUpdateBoardModal}
+        setSelectedTask={setSelectedTask}
+        setShowTaskDetailsModal={setShowTaskDetailsModal}
         />
     </div>
   )

@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 /* eslint-disable react/prop-types */
-export default function Display({ activeBoard, showSideBar, theme, setShowTaskModal, boards, setBoards, setActiveBoard }) {
+export default function Display({ activeBoard, showSideBar, theme, setShowTaskModal, boards, setBoards, setActiveBoard, setShowUpdateBoardModal, setSelectedTask, setShowTaskDetailsModal }) {
 
     const [showBoardControls, setShowBoardControls] = useState(false)
 
@@ -56,12 +56,23 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
         }
     }
 
+    const handleEditBoard = () => {
+        setShowUpdateBoardModal(true);
+        setShowBoardControls(false);
+    }
+
+    const handleSelectTask = (task) => {
+        setSelectedTask(task);
+        setShowTaskDetailsModal(true);
+        console.log(task)
+    }
+
     return (
         <div className={showSideBar ? "display sidebar-open" : "display"} style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
             {showBoardControls &&
                 <div className="controls-modal" onClick={(e) => handleCloseControls(e)}>
                     <div className="controls-modal-content">
-                        <button type="button" className="btn-2">Edit Board</button>
+                        <button type="button" className="btn-2" onClick={handleEditBoard}>Edit Board</button>
                         <button type="button" className="btn-2" onClick={handleDeleteBoard}>Delete Board</button>
                     </div>
                 </div>
@@ -82,7 +93,7 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
                                 <ul>
                                     {column.tasks.map((task) => {
                                         return (
-                                            <li key={task.id} className="task" style={theme == 'dark' ? darkTask : lightTask}>
+                                            <li key={task.id} className="task" style={theme == 'dark' ? darkTask : lightTask} onClick={() => handleSelectTask(task)}>
                                                 <h4>{task.name}</h4>
                                                 <p className="sub-tasks">{(task.subtasks.filter((subtask) => subtask.completed)).length || 0} of {(task.subtasks.length) || 0} subtasks</p>
                                             </li>
@@ -91,7 +102,10 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
                                 </ul>
                             </li>
                         )
-                    })}    
+                    })}
+                    <li className="column add-column" style={theme == 'dark' ? darkTask : lightTask} onClick={handleEditBoard}>
+                        <span>Add New Column <i className="fa-solid fa-plus"></i></span> 
+                    </li>    
                 </ul>        
             </div>
         </div>

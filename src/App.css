@@ -298,7 +298,7 @@ input[type="range"]:focus {
 .sidebar:not(.show-sidebar) .hide-sidebar > .img-container {
   position: fixed;
   right: -3rem;
-  background-color: var(--primary-dark);
+  background-color: var(--light-purple);
   border-radius: 0 5px 5px 0;
 }
 
@@ -313,7 +313,7 @@ input[type="range"]:focus {
 
 .display {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   margin-left: auto;
   transition: all 0.3s ease-in;
   font-family: "Roboto", sans-serif;
@@ -337,20 +337,36 @@ input[type="range"]:focus {
 
 
 .display .board-contents {
+  min-height: 100vh;
   width: 100%;
   padding: 1rem;
 }
 
 .board-contents .tasks {
   display: flex;
+  min-height: 100vh;
+  overflow-x: auto;
 }
 
-.board-contents .tasks > li {
+.board-contents .tasks li {
   width: 250px;
   margin: 1rem;
 }
 
-.board-contents .tasks > li h3 {
+.add-column {
+  min-width: 250px !important;
+  margin: 1rem;
+  display: grid;
+  place-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.add-column:hover span{
+  color: var(--light-purple);
+}
+
+.board-contents .tasks li h3 {
   font-size: 14px;
   font-weight: 500;
   color: #93a9c8;
@@ -420,6 +436,76 @@ input[type="range"]:focus {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
+}
+
+.task-details {
+  position: relative;
+  min-height: 200px;
+}
+
+.task-details .task-controls {
+  position: absolute;
+  top: 4.5rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.task-details .task-controls button {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.task-details .task-controls button:nth-child(1) {
+  color: var(--light-purple);
+  border-radius: 10px 10px 0 0;
+}
+
+.task-details .task-controls button:nth-child(2) {
+  color: #ff4d4d;
+  border-radius: 0 0 10px 10px;
+}
+
+.task-details h2 {
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-details h2 i {
+  cursor: pointer;
+}
+
+.task-details h4 {
+  color: var(--bluish-grey);
+  font-weight: 400;
+  margin: 1rem;
+}
+
+.task-details ul {
+  margin: 0 1rem;
+}
+
+.task-details ul li {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  background-color: var(--secondary-dark);
+  padding: 0.5rem;
+}
+
+.task-details ul li input {
+  margin: 0 1rem 0 0;
+}
+
+.task-details input.completed ~ label {
+  text-decoration: line-through;
+  font-style: italic !important;
+  color: var(--dark-bluish-grey);
 }
 
 .input-box label {
@@ -578,6 +664,7 @@ input[type="range"]:focus {
   border: none;
   outline: none;
   cursor: pointer;
+  background-color: white;
 }
 
 .controls-modal-content button:nth-child(1) {

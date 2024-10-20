@@ -205,8 +205,19 @@ function App() {
     ]
   });
 
+
+  const isAnyModalOpen = showCreateBoardModal || showUpdateBoardModal || showTaskModal || showTaskDetailsModal || showUpdateTaskModal;
   
   const [activeBoard, setActiveBoard] = useState(boards.length > 0 ? boards[0] : null);
+
+  useEffect(() => {
+    document.body.style.overflow = isAnyModalOpen ? 'hidden' : 'auto';
+
+    //  Cleanup
+    return () => {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isAnyModalOpen])
 
   useEffect(() => {
     // Whenever boards change, save them to local storage

@@ -4,19 +4,39 @@
 import { useState, useEffect } from "react";
 
 export default function Sidebar(
-  { theme, boards, setTheme, activeBoard, setActiveBoard, showSideBar, setShowSideBar, setShowCreateBoardModal }) {
-  
-  // Store sidebar visibility in localStorage to prevent it from being reset on re-renders
-  useEffect(() => {
-    const savedSidebarState = localStorage.getItem("showSideBar");
-    if (savedSidebarState !== null) {
-      setShowSideBar(JSON.parse(savedSidebarState));
-    }
-  }, []);
+  { theme, boards, setTheme, activeBoard, setActiveBoard, showSideBar, setShowSideBar, setShowCreateBoardModal, isMobile }) {
 
+
+  // If On mobile, hide the sidebar by default
+  useEffect(() => {
+    if (isMobile) {
+      setShowSideBar(false);
+    }
+  }, [isMobile, setShowSideBar]);
+
+  
   useEffect(() => {
     localStorage.setItem("showSideBar", JSON.stringify(showSideBar));
   }, [showSideBar]);
+
+
+  // Store sidebar visibility in localStorage to prevent it from being reset on re-renders
+  useEffect(() => {
+    const savedSidebarState = localStorage.getItem("showSideBar");
+    // If the saved state is not found, set a default value
+    if (savedSidebarState !== null) {
+      try {
+        setShowSideBar(JSON.parse(savedSidebarState));
+      } catch (error) {
+        console.error("Error parsing sidebar state from localStorage:", error);
+        // Optionally, set a default value if parsing fails
+        setShowSideBar(true); // or whatever default you prefer
+      }
+    } else {
+      // If the saved state is null (not found), set a default value
+      setShowSideBar(true); // or whatever default you prefer
+    }
+  }, [setShowSideBar]);
 
   const handleToggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -25,6 +45,13 @@ export default function Sidebar(
   const handleCreateBoard = () => [
       setShowCreateBoardModal(true)
   ]
+
+  const handleSetActiveBoard = (board) => {
+    setActiveBoard(board)
+    if (isMobile) {
+      setShowSideBar(false)
+    }
+  }
 
   return (
     <div
@@ -52,7 +79,7 @@ export default function Sidebar(
           <li
             key={board.id}
             className={board.id === activeBoard.id ? "active" : ""}
-            onClick={() => setActiveBoard(board)}
+            onClick={() => handleSetActiveBoard(board)}
           >
             <img
               src={theme === "dark" ? "/images/tasks.png" : "/images/tasks_blue.png"}

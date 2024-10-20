@@ -27,6 +27,9 @@ function App() {
 
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+
   const [boards, setBoards] = useState(() => {
     const storedBoards = localStorage.getItem("boards");
     return storedBoards ? JSON.parse(storedBoards) :
@@ -220,6 +223,14 @@ function App() {
   }, [isAnyModalOpen])
 
   useEffect(() => {
+
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth < 768);
+    });
+
+  }, [isMobile])
+
+  useEffect(() => {
     // Whenever boards change, save them to local storage
     localStorage.setItem("boards", JSON.stringify(boards));
 
@@ -308,6 +319,7 @@ function App() {
         showSideBar={showSideBar}
         setShowSideBar={setShowSideBar}
         setShowCreateBoardModal={setShowCreateBoardModal}
+        isMobile={isMobile}
         />
       <Display 
         activeBoard={activeBoard} 

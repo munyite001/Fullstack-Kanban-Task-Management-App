@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import './App.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Display from './components/Display'
 import CreateBoardModal from './components/CreateBoardModal'
@@ -8,8 +8,11 @@ import UpdateBoard from './components/UpdateBoard'
 import TaskModal from './components/TaskModal'
 import TaskDetails from './components/TaskDetails'
 import UpdateTask from './components/UpdateTaskDetails'
+import Auth from './components/auth'
 
 function App() {
+
+  const [user, setUser] = useState(null);
 
   const [theme, setTheme] = useState('dark')
 
@@ -264,7 +267,10 @@ function App() {
 
   return (
     <div className='app'>
-      {showUpdateTaskModal &&
+      {!user && 
+        <Auth theme={theme}/>
+      }
+      {showUpdateTaskModal && user &&
         <UpdateTask 
           selectedTask={selectedTask}
           activeBoard={activeBoard}
@@ -274,7 +280,7 @@ function App() {
           theme={theme}
         />
       }
-      {showTaskDetailsModal && 
+      {showTaskDetailsModal && user &&
         <TaskDetails 
           theme={theme}
           selectedTask={selectedTask}
@@ -284,7 +290,7 @@ function App() {
           setShowUpdateTaskModal={setShowUpdateTaskModal}
         />
       }
-      {showCreateBoardModal && 
+      {showCreateBoardModal && user &&
         <CreateBoardModal 
           setShowCreateBoardModal={setShowCreateBoardModal} 
           setBoards={setBoards} 
@@ -292,7 +298,7 @@ function App() {
           theme={theme}
           setActiveBoard={setActiveBoard}
           />}
-      {showUpdateBoardModal && 
+      {showUpdateBoardModal && user &&
         <UpdateBoard 
           setShowUpdateBoardModal={setShowUpdateBoardModal}
           setBoards={setBoards} 
@@ -301,7 +307,7 @@ function App() {
           activeBoard={activeBoard}
           setActiveBoard={setActiveBoard}
           />}
-      {showTaskModal &&
+      {showTaskModal && user &&
         <TaskModal 
           setShowTaskModal={setShowTaskModal}
           theme={theme}
@@ -310,18 +316,21 @@ function App() {
           activeBoard={activeBoard}
           />
       }
-      <Sidebar 
-        theme={theme} 
-        boards={boards} 
-        setTheme={setTheme} 
-        activeBoard={activeBoard} 
-        setActiveBoard={setActiveBoard}
-        showSideBar={showSideBar}
-        setShowSideBar={setShowSideBar}
-        setShowCreateBoardModal={setShowCreateBoardModal}
-        isMobile={isMobile}
-        />
-      <Display 
+      {user &&
+          <Sidebar
+          theme={theme} 
+          boards={boards} 
+          setTheme={setTheme} 
+          activeBoard={activeBoard} 
+          setActiveBoard={setActiveBoard}
+          showSideBar={showSideBar}
+          setShowSideBar={setShowSideBar}
+          setShowCreateBoardModal={setShowCreateBoardModal}
+          isMobile={isMobile}
+          />
+      }
+      {user &&
+        <Display 
         activeBoard={activeBoard} 
         showSideBar={showSideBar}
         theme={theme}
@@ -333,6 +342,7 @@ function App() {
         setSelectedTask={setSelectedTask}
         setShowTaskDetailsModal={setShowTaskDetailsModal}
         />
+      }
     </div>
   )
 }

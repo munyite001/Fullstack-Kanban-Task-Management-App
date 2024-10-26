@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 
 export default function Sidebar(
-  { theme, boards, setTheme, activeBoard, setActiveBoard, showSideBar, setShowSideBar, setShowCreateBoardModal, isMobile }) {
+  { theme, boards, setTheme, activeBoard, setActiveBoard, showSideBar, setShowSideBar, setShowCreateBoardModal, isMobile, user }) {
 
 
   // If On mobile, hide the sidebar by default
@@ -51,6 +51,11 @@ export default function Sidebar(
     if (isMobile) {
       setShowSideBar(false)
     }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("UserToken");
+    window.location.reload();
   }
 
   return (
@@ -113,6 +118,11 @@ export default function Sidebar(
           <img src={showSideBar ? "/images/hidden.png" : "/images/eye.png"} alt="Toggle SideBar Visibility Icon" />
         </div>
         <span>Hide Sidebar</span>
+      </div>
+
+      <div className="logout" onClick={handleLogout}>
+        <img src="/images/logout.png" alt="Logout Icon" />
+        <span>Logout</span>
       </div>
     </div>
   );

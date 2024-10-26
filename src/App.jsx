@@ -12,7 +12,12 @@ import Auth from './components/auth'
 
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [userToken, setUserToken] = useState(() => {
+    const token = localStorage.getItem('UserToken');
+    return token ? JSON.parse(token) : null;
+  });
+  
+  const [user, setUser] = useState(null)
 
   const [theme, setTheme] = useState('dark')
 
@@ -33,184 +38,184 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
 
-  const [boards, setBoards] = useState(() => {
-    const storedBoards = localStorage.getItem("boards");
-    return storedBoards ? JSON.parse(storedBoards) :
-    [
-      {
-        id: 1,
-        name: 'Platform Launch',
-        columns: [
-          {
-            id: 1,
-            name: 'To Do',
-            tasks: [
-              {
-                id: 1,
-                name: 'Task 1',
-                description: 'Task 1 Description',
-                dueDate: '2021-10-20',
-                status: 'to-do',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'In Progress',
-            tasks: [
-              {
-                id: 2,
-                name: 'Task 2',
-                description: 'Task 2 Description',
-                dueDate: '2021-10-22',
-                status: 'in-progress',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: 'Completed',
-            tasks: [
-              {
-                id: 3,
-                name: 'Task 3',
-                description: 'Task 3 Description',
-                dueDate: '2021-10-25',
-                status: 'completed',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: true },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Marketing Plan',
-        columns: [
-          {
-            id: 1,
-            name: 'To Do',
-            tasks: [
-              {
-                id: 1,
-                name: 'Task 1',
-                description: 'Task 1 Description',
-                dueDate: '2021-10-20',
-                status: 'to-do',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'In Progress',
-            tasks: [
-              {
-                id: 2,
-                name: 'Task 2',
-                description: 'Task 2 Description',
-                dueDate: '2021-10-22',
-                status: 'in-progress',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: 'Completed',
-            tasks: [
-              {
-                id: 3,
-                name: 'Task 3',
-                description: 'Task 3 Description',
-                dueDate: '2021-10-25',
-                status: 'completed',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: true },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 3,
-        name: 'Road Map',
-        columns: [
-          {
-            id: 1,
-            name: 'To Do',
-            tasks: [
-              {
-                id: 1,
-                name: 'Task 1',
-                description: 'Task 1 Description',
-                dueDate: '2021-10-20',
-                status: 'to-do',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'In Progress',
-            tasks: [
-              {
-                id: 2,
-                name: 'Task 2',
-                description: 'Task 2 Description',
-                dueDate: '2021-10-22',
-                status: 'in-progress',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: false },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: 'Completed',
-            tasks: [
-              {
-                id: 3,
-                name: 'Task 3',
-                description: 'Task 3 Description',
-                dueDate: '2021-10-25',
-                status: 'completed',
-                subtasks: [
-                  { id: 1, name: 'Subtask 1', completed: true },
-                  { id: 2, name: 'Subtask 2', completed: true }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  });
-
+  // const [boards, setBoards] = useState(() => {
+  //   const storedBoards = localStorage.getItem("boards");
+  //   return storedBoards ? JSON.parse(storedBoards) :
+  //   [
+  //     {
+  //       id: 1,
+  //       name: 'Platform Launch',
+  //       columns: [
+  //         {
+  //           id: 1,
+  //           name: 'To Do',
+  //           tasks: [
+  //             {
+  //               id: 1,
+  //               name: 'Task 1',
+  //               description: 'Task 1 Description',
+  //               dueDate: '2021-10-20',
+  //               status: 'to-do',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 2,
+  //           name: 'In Progress',
+  //           tasks: [
+  //             {
+  //               id: 2,
+  //               name: 'Task 2',
+  //               description: 'Task 2 Description',
+  //               dueDate: '2021-10-22',
+  //               status: 'in-progress',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 3,
+  //           name: 'Completed',
+  //           tasks: [
+  //             {
+  //               id: 3,
+  //               name: 'Task 3',
+  //               description: 'Task 3 Description',
+  //               dueDate: '2021-10-25',
+  //               status: 'completed',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: true },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       id: 2,
+  //       name: 'Marketing Plan',
+  //       columns: [
+  //         {
+  //           id: 1,
+  //           name: 'To Do',
+  //           tasks: [
+  //             {
+  //               id: 1,
+  //               name: 'Task 1',
+  //               description: 'Task 1 Description',
+  //               dueDate: '2021-10-20',
+  //               status: 'to-do',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 2,
+  //           name: 'In Progress',
+  //           tasks: [
+  //             {
+  //               id: 2,
+  //               name: 'Task 2',
+  //               description: 'Task 2 Description',
+  //               dueDate: '2021-10-22',
+  //               status: 'in-progress',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 3,
+  //           name: 'Completed',
+  //           tasks: [
+  //             {
+  //               id: 3,
+  //               name: 'Task 3',
+  //               description: 'Task 3 Description',
+  //               dueDate: '2021-10-25',
+  //               status: 'completed',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: true },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       id: 3,
+  //       name: 'Road Map',
+  //       columns: [
+  //         {
+  //           id: 1,
+  //           name: 'To Do',
+  //           tasks: [
+  //             {
+  //               id: 1,
+  //               name: 'Task 1',
+  //               description: 'Task 1 Description',
+  //               dueDate: '2021-10-20',
+  //               status: 'to-do',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 2,
+  //           name: 'In Progress',
+  //           tasks: [
+  //             {
+  //               id: 2,
+  //               name: 'Task 2',
+  //               description: 'Task 2 Description',
+  //               dueDate: '2021-10-22',
+  //               status: 'in-progress',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: false },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           id: 3,
+  //           name: 'Completed',
+  //           tasks: [
+  //             {
+  //               id: 3,
+  //               name: 'Task 3',
+  //               description: 'Task 3 Description',
+  //               dueDate: '2021-10-25',
+  //               status: 'completed',
+  //               subtasks: [
+  //                 { id: 1, name: 'Subtask 1', completed: true },
+  //                 { id: 2, name: 'Subtask 2', completed: true }
+  //               ]
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // });
+  const [boards, setBoards] = useState([]);
 
   const isAnyModalOpen = showCreateBoardModal || showUpdateBoardModal || showTaskModal || showTaskDetailsModal || showUpdateTaskModal;
   
@@ -267,10 +272,14 @@ function App() {
 
   return (
     <div className='app'>
-      {!user && 
-        <Auth theme={theme}/>
+      {!userToken && 
+        <Auth 
+          theme={theme}
+          setUserToken={setUserToken}
+          setUser={setUser}
+          />
       }
-      {showUpdateTaskModal && user &&
+      {showUpdateTaskModal && userToken &&
         <UpdateTask 
           selectedTask={selectedTask}
           activeBoard={activeBoard}
@@ -280,7 +289,7 @@ function App() {
           theme={theme}
         />
       }
-      {showTaskDetailsModal && user &&
+      {showTaskDetailsModal && userToken &&
         <TaskDetails 
           theme={theme}
           selectedTask={selectedTask}
@@ -290,7 +299,7 @@ function App() {
           setShowUpdateTaskModal={setShowUpdateTaskModal}
         />
       }
-      {showCreateBoardModal && user &&
+      {showCreateBoardModal && userToken &&
         <CreateBoardModal 
           setShowCreateBoardModal={setShowCreateBoardModal} 
           setBoards={setBoards} 
@@ -298,7 +307,7 @@ function App() {
           theme={theme}
           setActiveBoard={setActiveBoard}
           />}
-      {showUpdateBoardModal && user &&
+      {showUpdateBoardModal && userToken &&
         <UpdateBoard 
           setShowUpdateBoardModal={setShowUpdateBoardModal}
           setBoards={setBoards} 
@@ -307,7 +316,7 @@ function App() {
           activeBoard={activeBoard}
           setActiveBoard={setActiveBoard}
           />}
-      {showTaskModal && user &&
+      {showTaskModal && userToken &&
         <TaskModal 
           setShowTaskModal={setShowTaskModal}
           theme={theme}
@@ -316,31 +325,32 @@ function App() {
           activeBoard={activeBoard}
           />
       }
-      {user &&
+      {userToken &&
           <Sidebar
-          theme={theme} 
-          boards={boards} 
-          setTheme={setTheme} 
-          activeBoard={activeBoard} 
-          setActiveBoard={setActiveBoard}
-          showSideBar={showSideBar}
-          setShowSideBar={setShowSideBar}
-          setShowCreateBoardModal={setShowCreateBoardModal}
-          isMobile={isMobile}
+            user={user}
+            theme={theme} 
+            boards={boards} 
+            setTheme={setTheme} 
+            activeBoard={activeBoard} 
+            setActiveBoard={setActiveBoard}
+            showSideBar={showSideBar}
+            setShowSideBar={setShowSideBar}
+            setShowCreateBoardModal={setShowCreateBoardModal}
+            isMobile={isMobile}
           />
       }
-      {user &&
+      {userToken && 
         <Display 
-        activeBoard={activeBoard} 
-        showSideBar={showSideBar}
-        theme={theme}
-        setShowTaskModal={setShowTaskModal}
-        boards={boards}
-        setBoards={setBoards}
-        setActiveBoard={setActiveBoard}
-        setShowUpdateBoardModal={setShowUpdateBoardModal}
-        setSelectedTask={setSelectedTask}
-        setShowTaskDetailsModal={setShowTaskDetailsModal}
+          activeBoard={activeBoard} 
+          showSideBar={showSideBar}
+          theme={theme}
+          setShowTaskModal={setShowTaskModal}
+          boards={boards}
+          setBoards={setBoards}
+          setActiveBoard={setActiveBoard}
+          setShowUpdateBoardModal={setShowUpdateBoardModal}
+          setSelectedTask={setSelectedTask}
+          setShowTaskDetailsModal={setShowTaskDetailsModal}
         />
       }
     </div>

@@ -116,7 +116,7 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
 
     return (
         <div className={showSideBar ? "display sidebar-open" : "display"} style={theme == "dark" ? darkColorDisplay : lightColorDisplay}>
-            {showBoardControls &&
+            {showBoardControls && 
                 <div className="controls-modal" onClick={(e) => handleCloseControls(e)}>
                     <div className="controls-modal-content">
                         <button type="button" className="btn-2" onClick={handleEditBoard}>Edit Board</button>
@@ -124,16 +124,16 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
                     </div>
                 </div>
             }
-            <div className="display-info"style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
-                <h2>{activeBoard.name}</h2>
+            {activeBoard && <div className="display-info"style={theme == "dark" ? darkDisplayInfo : lightDisplayInfo}>
+                <h2>{activeBoard ? activeBoard.name : "Overview"}</h2>
                 <div className="display-info-controls">
                     <button type="button" className="btn" onClick={() => setShowTaskModal(true)}>Add New Task</button>
                     <i className="fa-solid fa-ellipsis-vertical" onClick={handleToggleBoardControls}></i>
                 </div>
-            </div>
+            </div>}
             <div className="board-contents">
                 <ul className="tasks">
-                    {activeBoard.columns.map((column, index) => {
+                    {activeBoard ? activeBoard.columns.map((column, index) => {
                         return (
                             <li key={column.id} className="column" ref={(el) => (columnRefs.current[index] = el)}>
                                 <h3>{column.name} ( {column.tasks.length} )</h3>
@@ -151,10 +151,12 @@ export default function Display({ activeBoard, showSideBar, theme, setShowTaskMo
                                 </ul>
                             </li>
                         )
-                    })}
-                    <li className="column add-column" style={theme == 'dark' ? darkTask : lightTask} onClick={handleEditBoard}>
-                        <span>Add New Column <i className="fa-solid fa-plus"></i></span> 
-                    </li>    
+                    }) : <h3 className="no-data">No Boards Available</h3>}
+                    {activeBoard && 
+                        <li className="column add-column" style={theme == 'dark' ? darkTask : lightTask} onClick={handleEditBoard}>
+                            <span>Add New Column <i className="fa-solid fa-plus"></i></span> 
+                        </li>    
+                    }
                 </ul>        
             </div>
         </div>

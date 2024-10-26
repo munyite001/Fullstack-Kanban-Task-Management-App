@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import AlertMessage from './Alert';
 import axios from 'axios';
 
-export default function Auth({ theme }) {
+export default function Auth({ theme, setUserToken, setUser }) {
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -54,6 +54,11 @@ export default function Auth({ theme }) {
         password: ''
     })
 
+    const [loginForm, setLoginForm] = useState({
+        email: '',
+        password: ''
+    })
+
     const handleRegisterUser = async (e) => {
         e.preventDefault();
 
@@ -66,7 +71,6 @@ export default function Auth({ theme }) {
             }
             , 5000);
         } catch (error) {
-            console.log("Error is: ", error);
             if (error.response && error.response.status == 401) {
                 setAlertMessage({message: error.response.data.message, type: "error"});
                 setShowAlert(true);
@@ -88,6 +92,37 @@ export default function Auth({ theme }) {
             }
         }
 
+    }
+
+    const handleLoginUser  = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post("http://localhost:3000/api/users/login", loginForm)
+            setUser(response.data);
+            setUserToken(response.data.token);
+            localStorage.setItem("UserToken", JSON.stringify(response.data.token));
+        } catch(err) {
+            if (err.response && err.response.status == 401) {
+                setAlertMessage({message: err.response.data.message, type: "error"});
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 5000);
+            } else if (err.response && err.response.status == 402) {
+                setAlertMessage({message: err.response.data.message, type: "error"});
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 5000);
+            } else {
+                setAlertMessage({message: err.data.message, type: "error"});
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 5000);
+            }
+        }
     }
 
     return (
@@ -131,7 +166,7 @@ export default function Auth({ theme }) {
                     </form>
                 </div>
                 <div className="sign-in">
-                    <form action="#" style={containerStyles}>
+                    <form action="#" style={containerStyles} onSubmit={(e) => handleLoginUser(e)}>
                         <h1>Sign In</h1>
                         <div className="social-container">
                             <a href="#"><i className="fab fa-facebook-f"></i></a>
@@ -139,8 +174,22 @@ export default function Auth({ theme }) {
                             <a href="#"><i className="fab fa-linkedin-in"></i></a>
                         </div>
                         <p>Or login using your account</p>
-                        <input type="email" name="txt" placeholder="Email" required />
-                        <input type="password" name="password" placeholder="Password" required />
+                        
+                        <input 
+                            type="email" 
+                            name="txt" 
+                            placeholder="Email" 
+                            value={loginForm.email}
+                            onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
+                            required />
+
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="Password" 
+                            value={loginForm.password}
+                            onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
+                            required />
                         <a href="#">Forget Your password?</a>
                         <button>Sign In</button>
                     </form>
